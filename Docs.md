@@ -3,7 +3,7 @@
 # Loadstring 
 
 ```
-local Notification = loadstring(game:HttpGet("https://api.irisapp.ca/Scripts/IrisBetterNotifications.lua"))()
+local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/Enviie/Iris-Notification-Lib/main/Iris%20Notification%20Main.lua"))()
 ```
 # Notification.Notify
 
@@ -67,7 +67,7 @@ Main = {
 # Notification Wall Settings Table
 
 ```
-local Notification = loadstring(game:HttpGet("https://api.irisapp.ca/Scripts/IrisBetterNotifications.lua"))()
+local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/Enviie/Iris-Notification-Lib/main/Iris%20Notification%20Main.lua"))()
 
 Notification.Notify("Yeeet", "yeet", "rbxasset://textures/ui/GuiImagePlaceholder.png", {
     Duration = 2,       
