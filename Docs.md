@@ -2,7 +2,7 @@
 
 # Loadstring 
 
-```
+```lua
 local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/Enviie/Iris-Notification-Lib/main/Iris%20Notification%20Main.lua"))()
 ```
 # Notification.Notify
