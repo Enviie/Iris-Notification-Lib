@@ -7,12 +7,12 @@ local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/
 ```
 # Notification.Notify
 
-```
+```lua
 bool Notification.Notify(<string> Title, <string> Description, <string> ImageAsset, <Table> Settings = Default)
 ```
 # Notification.WallNotification
 
-```
+```lua
 bool Notification.WallNotification(<string> Title, <string> Description, <Table> Settings = Default)
 ```
 # Notification Settings Table
