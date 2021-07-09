@@ -17,7 +17,7 @@ bool Notification.WallNotification(<string> Title, <string> Description, <Table>
 ```
 # Notification Settings Table
 
-```
+```lua
 Duration = 2,
 
 TitleSettings = {
@@ -66,7 +66,7 @@ Main = {
 
 # Notification Wall Settings Table
 
-```
+```lua
 local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/Enviie/Iris-Notification-Lib/main/Iris%20Notification%20Main.lua"))()
 
 Notification.Notify("Yeeet", "yeet", "rbxasset://textures/ui/GuiImagePlaceholder.png", {
