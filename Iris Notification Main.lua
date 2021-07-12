@@ -129,7 +129,18 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 	if SynGetAsset == "RBXASSET" then
 	    Icon.Image = Image
     elseif SynGetAsset == "SYNASSET" then
-        Icon.Image = getsynasset(Image)
+        local GetImage = syn.request({
+            Method = "GET",
+            Url = Image
+        }).Body
+        local File = nil
+        if Image:find(".jpg") then
+            File = writefile(RandomName(6) .. ".jpg", GetImage)
+            Icon.Image = getsynasset(File)
+        elseif Image:find(".png") then
+            File = writefile(RandomName(6) .. ".png", GetImage)
+            Icon.Image = getsynasset(File)
+        end
     end
 	UIAspectRatioConstraint.Parent = Icon
 
