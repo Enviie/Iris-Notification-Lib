@@ -133,13 +133,17 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
             Method = "GET",
             Url = Image
         }).Body
-        local File = nil
+        local File = {}
         if Image:find(".jpg") then
-            File = writefile(RandomName(6) .. ".jpg", GetImage)
-            Icon.Image = getsynasset(File)
+            local Ran = RandomName(6)
+            table.insert(File, Ran)
+            writefile(Ran .. ".jpg", GetImage)
+            Icon.Image = getsynasset(File .. ".jpg")
         elseif Image:find(".png") then
-            File = writefile(RandomName(6) .. ".png", GetImage)
-            Icon.Image = getsynasset(File)
+            local Ran1 = RandomName(6)
+            table.insert(File, Ran1)
+            writefile(Ran1 .. ".png", GetImage)
+            Icon.Image = getsynasset(File .. ".png")
         end
     end
 	UIAspectRatioConstraint.Parent = Icon
