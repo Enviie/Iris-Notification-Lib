@@ -123,7 +123,7 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 	Icon.BackgroundTransparency = IconSettings.BackgroundTransparency
 	Icon.Position = UDim2.new(0.0277603213, 0, 0.182097465, 0)
 	Icon.Size = UDim2.new(0, 40, 0, 40)
-	Icon.Image = Image
+	Icon.Image = Image or getsynasset(Image)
 
 	UIAspectRatioConstraint.Parent = Icon
 
