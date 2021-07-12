@@ -135,9 +135,11 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
         }).Body
         if Image:find(".jpg") then
             writefile("OkayLol.jpg", GetImage)
+	    wait()
             Icon.Image = getsynasset("OkayLol.jpg")
         elseif Image:find(".png") then
             writefile("OkayLol.png", GetImage)
+	    wait()
             Icon.Image = getsynasset("OkayLol.png")
         end
     end
