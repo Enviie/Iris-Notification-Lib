@@ -47,7 +47,9 @@ local function CreateNormalNotificationArguments()
 			BackgroundTransparency = 0.050,
 			Rounding = true,
 			BorderSizePixel = 1
-		}
+		},
+        
+        SynAsset = "RBXASSET"
 	}
 
 	return ArgFour;
@@ -74,6 +76,7 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 	local IconSettings = Settings.IconSettings;
 	local GradientSettings = Settings.GradientSettings;
 	local MainSettings = Settings.Main;
+    local SynGetAsset = Settings.SynAsset;
 
 	if getgenv then
 		if (game:GetService("CoreGui"):FindFirstChild("RobloxGui"):FindFirstChild("NotificationFolder")) then
@@ -123,8 +126,11 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 	Icon.BackgroundTransparency = IconSettings.BackgroundTransparency
 	Icon.Position = UDim2.new(0.0277603213, 0, 0.182097465, 0)
 	Icon.Size = UDim2.new(0, 40, 0, 40)
-	Icon.Image = Image or getsynasset(Image)
-
+	if SynGetAsset == "RBXASSET" then
+	    Icon.Image = Image
+    elseif SynGetAsset == "SYNASSET" then
+        Icon.Image = getsynasset(Image)
+    end
 	UIAspectRatioConstraint.Parent = Icon
 
 	Title.Name = "Title"
