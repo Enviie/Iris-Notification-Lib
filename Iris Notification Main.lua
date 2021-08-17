@@ -2,6 +2,77 @@ local NotificationTable = {};
 local Done = true;
 local TweenService = game:GetService("TweenService");
 
+local function CheckAd()
+	if getgenv then
+		if not getgenv()["IrisAd"] then
+			getgenv()["IrisAd"] = true;
+			NotificationTable.Notify("{ Iris }", "Thank you for using IrisNotify, consider donating! <b><font color=\"rgb(184,83,255)\">PayPal.me/IrisDev</font></b>", "rbxassetid://7258709020", {
+				Duration = 7,
+				TitleSettings = {
+					TextXAlignment = Enum.TextXAlignment.Center,
+					Font = Enum.Font.SourceSansSemibold,
+				},
+
+				GradientSettings = {
+					GradientEnabled = false,
+					SolidColorEnabled = true,
+					SolidColor = Color3.fromRGB(124, 83, 240),
+					Retract = true
+				}
+			})
+			wait(.3)
+			NotificationTable.Notify("{ Iris }", "To remove this message add <b><font color=\"rgb(184,83,255)\">getgenv()[\"IrisAd\"] = true</font></b> to your script!", "rbxassetid://7258714296", {
+				Duration = 7,
+				TitleSettings = {
+					TextXAlignment = Enum.TextXAlignment.Center,
+					Font = Enum.Font.SourceSansSemibold,
+				},
+
+				GradientSettings = {
+					GradientEnabled = false,
+					SolidColorEnabled = true,
+					SolidColor = Color3.fromRGB(124, 83, 240),
+					Retract = true
+				}
+			})
+		end
+	else
+		if not _G["IrisAd"] then
+			_G["IrisAd"] = true;
+			NotificationTable.Notify("{ Iris }", "Thank you for using IrisNotify, consider donating! <b><font color=\"rgb(184,83,255)\">PayPal.me/IrisDev</font></b>", "rbxassetid://7258709020", {
+				Duration = 7,
+				TitleSettings = {
+					TextXAlignment = Enum.TextXAlignment.Center,
+					Font = Enum.Font.SourceSansSemibold,
+				},
+
+				GradientSettings = {
+					GradientEnabled = false,
+					SolidColorEnabled = true,
+					SolidColor = Color3.fromRGB(124, 83, 240),
+					Retract = true
+				}
+			})
+			wait(.3)
+			NotificationTable.Notify("{ Iris }", "To remove this message add <b><font color=\"rgb(184,83,255)\">_G[\"IrisAd\"] = true</font></b> to your script!", "rbxassetid://7258714296", {
+				Duration = 7,
+				TitleSettings = {
+					TextXAlignment = Enum.TextXAlignment.Center,
+					Font = Enum.Font.SourceSansSemibold,
+				},
+				
+				GradientSettings = {
+					GradientEnabled = false,
+					SolidColorEnabled = true,
+					SolidColor = Color3.fromRGB(124, 83, 240),
+					Retract = true
+				}
+			})
+		end
+	end
+	wait()
+end
+
 local function CreateNormalNotificationArguments()
 	local ArgFour = {
 		Duration = 4,
@@ -47,9 +118,7 @@ local function CreateNormalNotificationArguments()
 			BackgroundTransparency = 0.050,
 			Rounding = true,
 			BorderSizePixel = 1
-		},
-        
-        SynAsset = "RBXASSET"
+		}
 	}
 
 	return ArgFour;
@@ -58,11 +127,11 @@ end
 local function RandomName(Size)
 	local String = "";
 	local Alphabet = {"{","}","[","]","(",")","/","\\","'","\"","`","~",",",";",":",".","<",">","@","#","$","%","1","2","3","4","5","6","7","8","9","0","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"}
-	
+
 	for i = 1, Size do
 		String = String .. Alphabet[math.random(#Alphabet)]
 	end
-	
+
 	return String;
 end
 
@@ -76,8 +145,7 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 	local IconSettings = Settings.IconSettings;
 	local GradientSettings = Settings.GradientSettings;
 	local MainSettings = Settings.Main;
-    local SynGetAsset = Settings.SynAsset;
-
+	
 	if getgenv then
 		if (game:GetService("CoreGui"):FindFirstChild("RobloxGui"):FindFirstChild("NotificationFolder")) then
 			NotificationFolder = game:GetService("CoreGui"):FindFirstChild("RobloxGui"):FindFirstChild("NotificationFolder");
@@ -126,23 +194,8 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 	Icon.BackgroundTransparency = IconSettings.BackgroundTransparency
 	Icon.Position = UDim2.new(0.0277603213, 0, 0.182097465, 0)
 	Icon.Size = UDim2.new(0, 40, 0, 40)
-	if SynGetAsset == "RBXASSET" then
-	    Icon.Image = Image
-    elseif SynGetAsset == "SYNASSET" then
-        local GetImage = syn.request({
-            Method = "GET",
-            Url = Image
-        }).Body
-        if Image:find(".jpg") then
-            writefile("OkayLol.jpg", GetImage)
-	    wait()
-            Icon.Image = getsynasset("OkayLol.jpg")
-        elseif Image:find(".png") then
-            writefile("OkayLol.png", GetImage)
-	    wait()
-            Icon.Image = getsynasset("OkayLol.png")
-        end
-    end
+	Icon.Image = Image
+
 	UIAspectRatioConstraint.Parent = Icon
 
 	Title.Name = "Title"
@@ -159,6 +212,7 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 	Title.TextYAlignment = TitleSettings.TextYAlignment
 	Title.Font = TitleSettings.Font
 	Title.BackgroundColor3 = TitleSettings.BackgroundColor3
+	Title.RichText = true
 
 	TextLabel.Parent = _Template
 	TextLabel.BackgroundColor3 = DescriptionSettings.BackgroundColor3
@@ -174,6 +228,7 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 	TextLabel.TextYAlignment = DescriptionSettings.TextYAlignment
 	TextLabel.Font = DescriptionSettings.Font
 	TextLabel.BackgroundColor3 = DescriptionSettings.BackgroundColor3
+	TextLabel.RichText = true
 
 
 	if MainSettings.Rounding then
@@ -182,7 +237,7 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 
 	Frame.Parent = _Template
 	Frame.BorderSizePixel = 0
-	Frame.Position = UDim2.new(0.0148148146, 0, 0.9375, 0)
+	Frame.Position = UDim2.new(0,0,1,-3)
 	Frame.Size = UDim2.new(0, 263, 0, 3)
 	Frame.Visible = false;
 
@@ -196,13 +251,13 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 		Frame.BackgroundColor3 = GradientSettings.SolidColor
 		Frame.Visible = true
 	end
-	
+
 	return {_Template, Duration, GradientSettings.Retract, GradientSettings.Extend};
 end
 
 NotificationTable.InsertNotification = function(Notification, Duration, Retracting, Extending)
 	repeat game:GetService("RunService").Heartbeat:Wait() until Done;
-		
+
 	local ShowPosition = UDim2.new(1, -280, 1, -70 * #NotificationFolder:GetChildren() - 1);
 	local HidePosition = UDim2.new(1, 0, 1, 0);
 
@@ -211,7 +266,7 @@ NotificationTable.InsertNotification = function(Notification, Duration, Retracti
 
 	local TweenInfData = TweenInfo.new(0.4);
 	local TweenInfData2 = TweenInfo.new(Duration);
-	
+
 	TweenService:Create(Notification, TweenInfData, {
 		Position = ShowPosition
 	}):Play();
@@ -219,7 +274,7 @@ NotificationTable.InsertNotification = function(Notification, Duration, Retracti
 	if (Retracting) then
 
 		TweenService:Create(Notification.Frame, TweenInfData2, {
-			Size = UDim2.new(0, 0, 0, 32)
+			Size = UDim2.new(0, 0, 0, 3)
 		}):Play();
 	elseif (Extending) then
 		Notification.Frame.Size = UDim2.new(0, 0, 0, 3);
@@ -231,30 +286,24 @@ NotificationTable.InsertNotification = function(Notification, Duration, Retracti
 
 	wait(TweenInfData2.Time);
 	wait(TweenInfData.Time);
-	
+
 	Done = false
 	local Tween = TweenService:Create(Notification, TweenInfData, {
 		Position = HidePosition
 	})
-	
+
 	Tween.Completed:Connect(function(State)
 		if State == Enum.PlaybackState.Completed then
 			Notification.Parent:Destroy();
-			for _, NotificationObject in next, NotificationFolder:GetChildren() do
-				local Notification = NotificationObject["_Template"];
-
-				TweenService:Create(Notification, TweenInfo.new(.25), {
-					Position = UDim2.new(1, -280, 1, Notification.Position.Y.Offset + 70);
-				}):Play();
-			end
 			Done = true
 		end
 	end)
-	
+
 	Tween:Play();
 end
 
 NotificationTable.Notify = function(...)
+	CheckAd();
 	coroutine.wrap(function(...)
 		local Args = {...};
 
@@ -266,19 +315,19 @@ NotificationTable.Notify = function(...)
 				Args[Index] = tostring(Argument);
 			end
 		end
-		
-		
+
+
 		if (#Args == 3) then
 			Args[4] = CreateNormalNotificationArguments();
 		end
 
 		Args[5] = CreateNormalNotificationArguments();
-		
+
 		if (type(Args[4]) ~= "table") then
 			warn("Settings table malformed, please make sure you have the exact table copied! { ARG4_INVALID_TABLE }");
 			Args[4] = CreateNormalNotificationArguments();
 		end
-		
+
 		for Property, Value in next, Args[4] do
 			if type(Value) == "table" then
 				for SubProperty, SubValue in next, Value do
@@ -288,8 +337,8 @@ NotificationTable.Notify = function(...)
 				Args[5][Property] = Value
 			end
 		end
-		
-		
+
+
 		local NotifFrame = NotificationTable.CreateNotification(Args[1], Args[2], Args[3], Args[5]);
 
 		NotificationTable.InsertNotification(NotifFrame[1], NotifFrame[2], NotifFrame[3], NotifFrame[4]);
@@ -303,7 +352,14 @@ local WallNotificationFolder = Instance.new("Folder");
 local function CreateWallArgs()
 	local ArgThree = {
 		Duration = 5,
-		
+
+		MainSettings = {
+			Orientation = "Middle",
+			VisibleSize = UDim2.new(0.96981132, 0, 0.947604775, 0);
+			HiddenSize  = UDim2.new(0, 0, 0.947604775, 0),
+			TweenTime 	= 0.8
+		},
+
 		TitleSettings = {
 			Enabled = true,
 			BackgroundColor3 = Color3.fromRGB(200, 200 ,200),
@@ -331,11 +387,12 @@ local function CreateWallArgs()
 end
 
 NotificationTable.CreateWallNotification = function(TitleText, DescriptionText, Settings)
-	
+
 	local Duration = Settings.Duration;
 	local TitleSettings = Settings.TitleSettings;
 	local DescriptionSettings = Settings.DescriptionSettings;
-	
+	local MainSettings = Settings.MainSettings;
+
 	if getgenv then
 		if (game:GetService("CoreGui"):FindFirstChild("RobloxGui"):FindFirstChild("WallNotificationFolder")) then
 			WallNotificationFolder = game:GetService("CoreGui"):FindFirstChild("RobloxGui"):FindFirstChild("WallNotificationFolder");
@@ -351,12 +408,12 @@ NotificationTable.CreateWallNotification = function(TitleText, DescriptionText, 
 			WallNotificationFolder.Parent = game:GetService("Players").LocalPlayer.PlayerGui;
 		end
 	end
-	
+
 	local WallNotification = Instance.new("ScreenGui")
 	local Main = Instance.new("Frame")
 	local Title = Instance.new("TextLabel")
 	local Description = Instance.new("TextLabel")
-		
+
 	WallNotification.Name = "Notification"
 	WallNotification.Parent = WallNotificationFolder
 	WallNotification.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -369,7 +426,7 @@ NotificationTable.CreateWallNotification = function(TitleText, DescriptionText, 
 	Main.BackgroundTransparency = 0.200
 	Main.BorderColor3 = Color3.fromRGB(255, 255, 255)
 	Main.Position = UDim2.new(0.5, 0, 0.5, 0)
-	Main.Size = UDim2.new(0, 0, 0.947604775, 0)
+	Main.Size = MainSettings.HiddenSize;
 
 	Title.Name = "Title"
 	Title.Parent = Main
@@ -386,6 +443,7 @@ NotificationTable.CreateWallNotification = function(TitleText, DescriptionText, 
 	Title.Font = TitleSettings.Font
 	Title.BackgroundColor3 = TitleSettings.BackgroundColor3
 	Title.Visible = TitleSettings.Enabled
+	Title.RichText = true
 	
 	Description.Name = "Description"
 	Description.Parent = Main
@@ -401,37 +459,108 @@ NotificationTable.CreateWallNotification = function(TitleText, DescriptionText, 
 	Description.TextYAlignment = DescriptionSettings.TextYAlignment
 	Description.Font = DescriptionSettings.Font
 	Description.BackgroundColor3 = DescriptionSettings.BackgroundColor3
+	Description.RichText = true
 	
 	Main.Visible = false;
 	
-	return {Main, Duration};
+	return {Main, Duration, MainSettings};
 end
 
-NotificationTable.InsertWallNotification = function(Notification, Duration)
-	local ShowPosition = UDim2.new(0.96981132, 0, 0.947604775, 0)
-	local HidePosition = UDim2.new(0, 0, 0.947604775, 0)
+NotificationTable.InsertWallNotification = function(Notification, Duration, SettingsTable)
+	local ShowSize = SettingsTable.VisibleSize;
+	local HiddenSize = SettingsTable.HiddenSize;
+	local PositionType = SettingsTable.Orientation;
+	local TweenInfData = TweenInfo.new(SettingsTable.TweenTime);
+		
+	if PositionType == "Top" then
+		Notification.Visible = true;
+		Notification.Size = ShowSize;
+		Notification.Position = UDim2.new(Notification.Position.X.Scale, Notification.Position.X.Offset, 0, -(Notification.Parent.AbsoluteSize.Y / 2) - 25)
 
-	Notification.Visible = true;
+		TweenService:Create(Notification, TweenInfData, {
+			Position = UDim2.new(.5, 0, .5, 0)
+		}):Play()
 
-	local TweenInfData = TweenInfo.new(.8);
+		wait(TweenInfData.Time + Duration);
 
-	TweenService:Create(Notification, TweenInfData, {
-		Size = ShowPosition
-	}):Play();
+		TweenService:Create(Notification, TweenInfData, {
+			Position = UDim2.new(Notification.Position.X.Scale, Notification.Position.X.Offset, 0, -(Notification.Parent.AbsoluteSize.Y / 2) - 25)
+		}):Play();
 
-	wait(TweenInfData.Time);
-	wait(Duration);
-	
-	TweenService:Create(Notification, TweenInfData, {
-		Size = HidePosition
-	}):Play();
+		wait(TweenInfData.Time);
+	elseif PositionType == "Left" then
+		Notification.Visible = true;
+		Notification.Size = ShowSize;
+		Notification.Position = UDim2.new(0, -(Notification.Parent.AbsoluteSize.X / 2), Notification.Position.Y.Scale, Notification.Position.Y.Offset)
+		
+		TweenService:Create(Notification, TweenInfData, {
+			Position = UDim2.new(.5, 0, .5, 0)
+		}):Play()
 
-	wait(TweenInfData.Time);
+		wait(TweenInfData.Time + Duration);
+
+		TweenService:Create(Notification, TweenInfData, {
+			Position = UDim2.new(0, -(Notification.Parent.AbsoluteSize.X / 2), Notification.Position.Y.Scale, Notification.Position.Y.Offset)
+		}):Play();
+
+		wait(TweenInfData.Time);
+	elseif PositionType == "Right" then 
+		Notification.Visible = true;
+		Notification.Size = ShowSize;
+		Notification.Position = UDim2.new(0, Notification.Parent.AbsoluteSize.X + Notification.AbsoluteSize.X / 2, Notification.Position.Y.Scale, Notification.Position.Y.Offset)
+		
+		TweenService:Create(Notification, TweenInfData, {
+			Position = UDim2.new(.5, 0, .5, 0)
+		}):Play()
+
+		wait(TweenInfData.Time + Duration);
+
+		TweenService:Create(Notification, TweenInfData, {
+			Position = UDim2.new(0, Notification.Parent.AbsoluteSize.X + Notification.AbsoluteSize.X / 2, Notification.Position.Y.Scale, Notification.Position.Y.Offset)
+		}):Play();
+
+		wait(TweenInfData.Time);
+		
+	elseif PositionType == "Bottom" then
+		Notification.Visible = true;
+		Notification.Size = ShowSize;
+		Notification.Position = UDim2.new(Notification.Position.X.Scale, Notification.Position.X.Offset, 0, Notification.Parent.AbsoluteSize.Y + (Notification.AbsoluteSize.Y / 2))
+		
+		TweenService:Create(Notification, TweenInfData, {
+			Position = UDim2.new(.5, 0, .5, 0)
+		}):Play()
+
+		wait(TweenInfData.Time + Duration);
+
+		TweenService:Create(Notification, TweenInfData, {
+			Position = UDim2.new(Notification.Position.X.Scale, Notification.Position.X.Offset, 0, Notification.Parent.AbsoluteSize.Y + (Notification.AbsoluteSize.Y / 2))
+		}):Play();
+
+		wait(TweenInfData.Time);
+		
+	elseif PositionType == "Middle" then
+		Notification.Visible = true;
+
+		TweenInfData = TweenInfo.new(.8);
+
+		TweenService:Create(Notification, TweenInfData, {
+			Size = ShowSize
+		}):Play();
+
+		wait(TweenInfData.Time + Duration);
+
+		TweenService:Create(Notification, TweenInfData, {
+			Size = HiddenSize
+		}):Play();
+
+		wait(TweenInfData.Time);
+	end
 
 	Notification.Parent:Destroy();
 end
 
 NotificationTable.WallNotification = function(...)
+	CheckAd();
 	coroutine.wrap(function(...)
 		local Args = {...};
 
@@ -449,7 +578,7 @@ NotificationTable.WallNotification = function(...)
 		end
 
 		Args[4] = CreateWallArgs();
-		
+
 		if (type(Args[3]) ~= "table") then
 			warn("Settings table malformed, please make sure you have the exact table copied! { ARG4_INVALID_TABLE }");
 			Args[3] = CreateWallArgs();
@@ -468,8 +597,22 @@ NotificationTable.WallNotification = function(...)
 
 		local NotifFrame = NotificationTable.CreateWallNotification(Args[1], Args[2], Args[4]);
 
-		NotificationTable.InsertWallNotification(NotifFrame[1], NotifFrame[2]);
+		NotificationTable.InsertWallNotification(NotifFrame[1], NotifFrame[2], NotifFrame[3]);
 	end)(...)
+end
+
+NotificationTable.ClearOverride = function()
+	CheckAd();
+	for _, Folder in next, game:GetService("CoreGui"):FindFirstChild("RobloxGui"):GetChildren() do
+		if Folder.Name:match("NotificationFolder") or Folder.Name:match("WallNotificationFolder") then
+			Folder:Destroy();
+		end
+	end
+	for _, Folder in next, game:GetService("Players").LocalPlayer.PlayerGui:GetChildren() do
+		if Folder.Name:match("NotificationFolder") or Folder.Name:match("WallNotificationFolder") then
+			Folder:Destroy();
+		end
+	end
 end
 
 return NotificationTable;
