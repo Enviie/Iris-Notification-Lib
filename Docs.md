@@ -15,6 +15,12 @@ bool Notification.Notify(<string> Title, <string> Description, <string> ImageAss
 ```lua
 bool Notification.WallNotification(<string> Title, <string> Description, <Table> Settings = Default)
 ```
+# Notification.ClearAllNotifications()
+
+```lua
+void Notification.ClearAllNotifications()
+```
+
 # Notification Settings Table
 
 ```lua
