@@ -38,7 +38,7 @@ local function CheckAd()
 		end
 	else
 		if not _G["IrisAd"] then
-			_G["IrisAd"] = true;
+			_G["IrisAd"] = false
 			NotificationTable.Notify("{ Iris }", "Thank you for using IrisNotify, consider donating! <b><font color=\"rgb(184,83,255)\">PayPal.me/IrisDev</font></b>", "rbxassetid://7258709020", {
 				Duration = 7,
 				TitleSettings = {
