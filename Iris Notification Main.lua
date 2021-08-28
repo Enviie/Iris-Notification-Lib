@@ -2,9 +2,9 @@ local NotificationTable = {};
 local Done = true;
 local TweenService = game:GetService("TweenService");
 if getgenv then
-     getgenv()["IrisAd"] = true
+     getgenv()["IrisAd"] = false
 else
-     _G["IrisAd"] = true
+     _G["IrisAd"] = false
 end
 
 local function CheckAd()
