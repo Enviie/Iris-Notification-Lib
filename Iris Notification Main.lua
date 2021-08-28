@@ -5,7 +5,7 @@ local TweenService = game:GetService("TweenService");
 local function CheckAd()
 	if getgenv then
 		if not getgenv()["IrisAd"] then
-			getgenv()["IrisAd"] = true;
+			getgenv()["IrisAd"] = false;
 			NotificationTable.Notify("{ Iris }", "Thank you for using IrisNotify, consider donating! <b><font color=\"rgb(184,83,255)\">PayPal.me/IrisDev</font></b>", "rbxassetid://7258709020", {
 				Duration = 7,
 				TitleSettings = {
