@@ -1,11 +1,25 @@
 local NotificationTable = {};
 local Done = true;
 local TweenService = game:GetService("TweenService");
+local TemplateName = {}
+
+local function Debug(...)
+    if getgenv().DebugEnabled and game:GetService("Players").LocalPlayer then
+        rconsolename("Data".."_"..tostring(game.PlaceId))
+        local Args = {...}
+        local Str = "";
+        for _,Arg in next, Args do
+            Str = Str .. " " ..tostring(Arg)
+        end
+        rconsolewarn(Str)
+        wait(1.5)
+    end
+end
 
 local function CheckAd()
 	if getgenv then
 		if not getgenv()["IrisAd"] then
-			getgenv()["IrisAd"] = true
+			getgenv()["IrisAd"] = true;
 			NotificationTable.Notify("{ Iris }", "Thank you for using IrisNotify, consider donating! <b><font color=\"rgb(184,83,255)\">PayPal.me/IrisDev</font></b>", "rbxassetid://7258709020", {
 				Duration = 7,
 				TitleSettings = {
@@ -38,7 +52,7 @@ local function CheckAd()
 		end
 	else
 		if not _G["IrisAd"] then
-			_G["IrisAd"] = true
+			_G["IrisAd"] = true;
 			NotificationTable.Notify("{ Iris }", "Thank you for using IrisNotify, consider donating! <b><font color=\"rgb(184,83,255)\">PayPal.me/IrisDev</font></b>", "rbxassetid://7258709020", {
 				Duration = 7,
 				TitleSettings = {
@@ -139,6 +153,7 @@ local NotificationFolder = Instance.new("Folder");
 
 NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings)
 
+    Debug("CREATED_",TitleData, Text, Image, Settings)
 	local Duration = Settings.Duration;
 	local TitleSettings = Settings.TitleSettings;
 	local DescriptionSettings = Settings.DescriptionSettings;
@@ -146,14 +161,19 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 	local GradientSettings = Settings.GradientSettings;
 	local MainSettings = Settings.Main;
 	
+    Debug("Running Parent")
 	if getgenv then
-		if (game:GetService("CoreGui"):FindFirstChild("RobloxGui"):FindFirstChild("NotificationFolder")) then
-			NotificationFolder = game:GetService("CoreGui"):FindFirstChild("RobloxGui"):FindFirstChild("NotificationFolder");
+        Debug("GetGenv Detected")
+		if (game:GetService("CoreGui"):FindFirstChild("RobloxGui"):FindFirstChild("NotificationFrame"):FindFirstChild("NotificationFolder")) then
+            Debug("NotifFolder Detected")
+			NotificationFolder = game:GetService("CoreGui"):FindFirstChild("RobloxGui"):FindFirstChild("NotificationFrame"):FindFirstChild("NotificationFolder");
 		else
+            Debug("Creating NotifFolder")
 			NotificationFolder.Name = "NotificationFolder"
-			NotificationFolder.Parent = game:GetService("CoreGui"):FindFirstChild("RobloxGui");
+			NotificationFolder.Parent = game:GetService("CoreGui"):FindFirstChild("RobloxGui"):FindFirstChild("NotificationFrame");
 		end
 	else
+        Debug("Roblox Client Detected")
 		if (game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("NotificationFolder")) then
 			NotificationFolder = game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("NotificationFolder");
 		else
@@ -162,6 +182,7 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 		end
 	end
 
+    Debug("Creating Notif Instances")
 	local Notification = Instance.new("ScreenGui")
 	local _Template = Instance.new("Frame")
 	local Icon = Instance.new("ImageLabel")
@@ -173,21 +194,46 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 	local UIGradient = Instance.new("UIGradient")
 
 
+    Debug("Setting main Parent/Name")
 	Notification.Name = RandomName(15)
+    Debug("Main 1/4")
+    
+    if hookmetamethod then
+        local a;a=hookmetamethod(game,"__index",function(...)local self,b=...if self==Notification and not checkcaller()then if tostring(b)=="Name"then return"CoreGui"end end;return a(...)end)
+    end
+    
 	Notification.Parent = NotificationFolder
+    Debug("Main 2/4")
 	Notification.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    Debug("Main 3/4")
 	Notification.Enabled = true;
+    Debug("Main 4/4")
 
-	_Template.Name = "_Template"
-	_Template.Parent = Notification
+    if getgenv().DevBuild then
+        TemplateName[_Template] = RandomName(15) .. "_";
+        _Template.Name = TemplateName[_Template]
+    else
+        _Template.Name = "_Template";
+    end
+    Debug("_Temp 1/9")
 	_Template.BackgroundColor3 = MainSettings.BackgroundColor3
+    Debug("_Temp 2/9")
 	_Template.BackgroundTransparency = MainSettings.BackgroundTransparency
+    Debug("_Temp 3/9")
 	_Template.BorderColor3 = MainSettings.BorderColor3
+    Debug("_Temp 4/9")
 	_Template.Position = UDim2.new(0.713929176, 0, 0.587826073, 0)
+    Debug("_Temp 5/9")
 	_Template.Size = UDim2.new(0, 270, 0, 64)
+    Debug("_Temp 6/9")
 	_Template.ZIndex = 9
+    Debug("_Temp 7/9")
 	_Template.Visible = false;
-
+    Debug("_Temp 8/9")
+	_Template.Parent = Notification
+    Debug("_Temp 9/9")
+    Debug("_Temp finished")
+    
 	Icon.Name = "Icon"
 	Icon.Parent = _Template
 	Icon.BackgroundColor3 = IconSettings.BackgroundColor3
@@ -195,8 +241,10 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 	Icon.Position = UDim2.new(0.0277603213, 0, 0.182097465, 0)
 	Icon.Size = UDim2.new(0, 40, 0, 40)
 	Icon.Image = Image
+    Debug("Icon finished")
 
 	UIAspectRatioConstraint.Parent = Icon
+    Debug("UiAspect finished")
 
 	Title.Name = "Title"
 	Title.Parent = _Template
@@ -213,6 +261,7 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 	Title.Font = TitleSettings.Font
 	Title.BackgroundColor3 = TitleSettings.BackgroundColor3
 	Title.RichText = true
+    Debug("Title finished")
 
 	TextLabel.Parent = _Template
 	TextLabel.BackgroundColor3 = DescriptionSettings.BackgroundColor3
@@ -229,20 +278,23 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 	TextLabel.Font = DescriptionSettings.Font
 	TextLabel.BackgroundColor3 = DescriptionSettings.BackgroundColor3
 	TextLabel.RichText = true
-
+    Debug("TextLanel finished")
 
 	if MainSettings.Rounding then
 		UICorner.Parent = _Template
 	end
+    Debug("Rounding finished")
 
 	Frame.Parent = _Template
 	Frame.BorderSizePixel = 0
 	Frame.Position = UDim2.new(0,0,1,-3)
 	Frame.Size = UDim2.new(0, 263, 0, 3)
 	Frame.Visible = false;
+    Debug("Frame finished")
 
 	UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 8, 231)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(64, 0, 255))}
 	UIGradient.Parent = Frame
+    Debug("Gradient finished")
 
 	if GradientSettings.GradientEnabled then
 		Frame.Visible = true
@@ -252,10 +304,12 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 		Frame.Visible = true
 	end
 
+    Debug("Returning Objects")
 	return {_Template, Duration, GradientSettings.Retract, GradientSettings.Extend};
 end
 
 NotificationTable.InsertNotification = function(Notification, Duration, Retracting, Extending)
+    Debug("Insert Called, waiting to run")
 	repeat game:GetService("RunService").Heartbeat:Wait() until Done;
 
 	local ShowPosition = UDim2.new(1, -280, 1, -70 * #NotificationFolder:GetChildren() - 1);
@@ -306,10 +360,12 @@ NotificationTable.Notify = function(...)
 	CheckAd();
 	coroutine.wrap(function(...)
 		local Args = {...};
-
+        
+        Debug("Notif started")
 		assert(#Args < 5, "Error: Too many arguments for Notify | Expected 3 : 4");
 		assert(#Args > 2, "Error: Too little arguments for Notify | Expected 3 : 4")
 
+        Debug("Notif started", "Fixing Args")
 		for Index,Argument in next, Args do
 			if Index ~= 4 then
 				Args[Index] = tostring(Argument);
@@ -317,12 +373,15 @@ NotificationTable.Notify = function(...)
 		end
 
 
+        Debug("Arg 3 reset")
 		if (#Args == 3) then
 			Args[4] = CreateNormalNotificationArguments();
 		end
 
+        Debug("Arg 5 reset")
 		Args[5] = CreateNormalNotificationArguments();
 
+        Debug("Settings set")
 		if (type(Args[4]) ~= "table") then
 			warn("Settings table malformed, please make sure you have the exact table copied! { ARG4_INVALID_TABLE }");
 			Args[4] = CreateNormalNotificationArguments();
@@ -338,10 +397,13 @@ NotificationTable.Notify = function(...)
 			end
 		end
 
+        Debug("Settings set done")
 
 		local NotifFrame = NotificationTable.CreateNotification(Args[1], Args[2], Args[3], Args[5]);
 
+        Debug("Finished creating", "Inserting")
 		NotificationTable.InsertNotification(NotifFrame[1], NotifFrame[2], NotifFrame[3], NotifFrame[4]);
+        Debug("Finished Inserting")
 	end)(...)
 end
 
